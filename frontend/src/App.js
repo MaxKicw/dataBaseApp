@@ -6,21 +6,43 @@ import InputBox from './components/InputBox';
 class App extends Component {
 
   state = {
-    objects:[{name:'Max'},{name:"Franz"}],
+    objects:[],
+    value:'',
   }
 
   componentDidMount(){
-    this.apiCall("/get-all-data","GET");
+    this.update();
   };
+
+  update(){
+    this.apiCall("/get-all-data","GET");
+  }
 
   apiCall = (url,method,body) => {
     let that = this;
-    let fetchBody = body;
-    return fetch(new Request('http://localhost:5000/'+url,{
+    var type = url.split("/",2);
+    type = type.splice(1);
+    let fetchBody;
+    switch(type[0]){
+      case 'get-all-data':
+      case "get-data":
+      case "delete":
+        fetchBody=undefined;
+        break;
+      case "insert":
+        fetchBody={"name":body};
+        break;
+      default:
+      console.log("Nix davon");
+        break;
+    }
+    console.log("API-Call with type of "+type+" to "+url+",with method of "+method+" and this body: "+fetchBody);
+    return fetch(new Request('http://localhost:5000'+url,{
       method: method,
       headers: new Headers({
         'Content-Type':'application/json',
-        'Access-Control-Allow-Methods':'GET, POST'
+        'Access-Control-Allow-Methods':"GET, POST, OPTIONS, PUT, PATCH, DELETE",
+        'Access-Control-Allow-Origin':"http://localhost:3000",
       }),
       body: JSON.stringify(fetchBody)
     }))
@@ -28,16 +50,28 @@ class App extends Component {
       return res.json()
     })
     .then(function(res){
-      that.setState({objects:res});
+      switch(type[0]){
+        case "get-all-data":
+          that.setState({objects:res});
+          break;
+        case "insert":
+        case "delete":
+          that.update();
+          break;
+        default:
+          console.log("err");
+          break;
+      }
+     
     })  
   };
 
   render() {
     return (
       <div className="App">
-      <InputBox/>
+      <InputBox fetch={this.apiCall} value={this.state.value}/>
         {this.state.objects.map((user,index)=>{
-          return <DataObject name={user.name}/>
+          return <DataObject name={user.name} key={index} id={user._id} fetch={this.apiCall}/>
         })}
       </div>
     );

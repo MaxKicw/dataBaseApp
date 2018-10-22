@@ -9,7 +9,7 @@ class DataObject extends Component{
     
     render(){
         return(
-            <div className="DataObject">
+            <div className="DataObject" id={this.props.id}  onClick={this.props.fetch.bind(this,"/delete/"+this.props.id,"GET")}>
                 <p>{this.props.name}</p>
             </div>
         )
