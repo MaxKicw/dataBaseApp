@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 input{
     margin: 5px;
 }
@@ -8,3 +9,17 @@ input{
     float: right;
     margin: 5px;
 }
+=======
+.Submit{
+    height: 20px;
+    width: 20px;
+    background-color: darkgrey;
+    margin: 5px;
+    display: inline-block;
+    float: right;
+    border-radius: 2px;
+}
+input{
+    margin: 5px;
+}
+>>>>>>> 6ef1d1060ac7a302d2c5bc24b7f0ba46bbbf4896

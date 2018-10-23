@@ -43,7 +43,10 @@ app.get('/get-data/:productId',function(req,res){
 });
 
 app.post('/insert',function(req,res){
+<<<<<<< HEAD
     console.log("INSERT IN DATABASE");
+=======
+>>>>>>> 6ef1d1060ac7a302d2c5bc24b7f0ba46bbbf4896
     console.log(req.body);
     const user = new User({
         _id: new mongoose.Types.ObjectId(),
@@ -53,8 +56,13 @@ app.post('/insert',function(req,res){
     user.save()
     .then(result => {
         console.log(result);
+<<<<<<< HEAD
         res.setHeader('Access-Control-Origin','http://localhost:3000');
         res.setHeader('Access-Control-Allow-Methods','GET, POST, OPTIONS, PUT, PATCH, DELETE');
+=======
+        res.setHeader('Access-Control-Allow-Origin',"http://localhost:3000");
+        res.setHeader('Access-Control-Allow-Methods',"GET, POST, OPTIONS, PUT, PATCH, DELETE");
+>>>>>>> 6ef1d1060ac7a302d2c5bc24b7f0ba46bbbf4896
         res.status(201).json({
             message: "Wurde eingespeichert",
             ceatedUser: result
@@ -63,7 +71,7 @@ app.post('/insert',function(req,res){
      .catch(err => {
          console.log(err);
          res.status(500).json({
-             message: "Hab nicht funktioniert",
+             message: "Hat nicht funktioniert",
              error: err,
          })
      });
@@ -94,7 +102,7 @@ app.get('/get-all-data',function(req,res){
 
 app.get('/delete/:id',function(req,res){
     var id = req.params.id;
-    User.remove({_id:id})
+    User.deleteOne({_id:id})
     .exec()
     .then(result => {
         res.status(200).json(result)
