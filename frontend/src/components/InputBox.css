@@ -1,0 +1,10 @@
+input{
+    margin: 5px;
+}
+.add{
+    width: 20px;
+    height: 20px;
+    background-color: darkblue;
+    float: right;
+    margin: 5px;
+}

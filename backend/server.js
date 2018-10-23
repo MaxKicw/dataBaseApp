@@ -43,6 +43,8 @@ app.get('/get-data/:productId',function(req,res){
 });
 
 app.post('/insert',function(req,res){
+    console.log("INSERT IN DATABASE");
+    console.log(req.body);
     const user = new User({
         _id: new mongoose.Types.ObjectId(),
         name: req.body.name,
@@ -51,6 +53,8 @@ app.post('/insert',function(req,res){
     user.save()
     .then(result => {
         console.log(result);
+        res.setHeader('Access-Control-Origin','http://localhost:3000');
+        res.setHeader('Access-Control-Allow-Methods','GET, POST, OPTIONS, PUT, PATCH, DELETE');
         res.status(201).json({
             message: "Wurde eingespeichert",
             ceatedUser: result

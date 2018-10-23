@@ -10,19 +10,37 @@ class App extends Component {
   }
 
   componentDidMount(){
-    this.apiCall("/get-all-data","GET");
+    this.apiCall("get-all-data","get-all-data","GET");
   };
 
-  apiCall = (url,method,body) => {
+  apiCall = (type,url,method,body) => {
     let that = this;
-    let fetchBody = body;
+    switch(type){
+      case "insert":
+        body = {"name":body};
+        break;
+      case "get-all-data":
+
+        break;
+      case "delete":
+
+        break;
+      case "get-data":
+
+        break;
+      case "change":
+
+        break;
+    }
+    console.log("URL: "+url+",Methode: "+method+", Body: "+body);
     return fetch(new Request('http://localhost:5000/'+url,{
       method: method,
       headers: new Headers({
         'Content-Type':'application/json',
-        'Access-Control-Allow-Methods':'GET, POST'
+        'Access-Control-Allow-Methods':'GET, POST, OPTIONS, PUT, PATCH, DELETE',
+        'Access-Control-Allow-Origin':'http://localhost:3000'
       }),
-      body: JSON.stringify(fetchBody)
+      body: JSON.stringify(body),
     }))
     .then(function(res){
       return res.json()
@@ -35,7 +53,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-      <InputBox/>
+      <InputBox fetch={this.apiCall}/>
         {this.state.objects.map((user,index)=>{
           return <DataObject name={user.name}/>
         })}
